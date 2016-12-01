@@ -12,3 +12,5 @@ checkpoint
 htmlcov
 mnist
 test*tflearn*
+*.h5
+*.pkl
