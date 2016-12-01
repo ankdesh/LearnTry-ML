@@ -14,3 +14,4 @@ mnist
 test*tflearn*
 *.h5
 *.pkl
+examples/basics/cifar-10-batches-py/
