@@ -1,2 +1,4 @@
 *.prototxt
 *.caffemodel
+images/
+trainingSet/
