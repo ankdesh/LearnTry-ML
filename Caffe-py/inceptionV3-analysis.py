@@ -26,10 +26,10 @@ for i in range(100):
     np100imgs -= 0.5
     np100imgs *= 2.
 
-net = caffe.Net('/home/ankdesh/ssd/models/caffe/inceptionv3/deploy_inception-v3.prototxt', \
+net = caffe.Net('/home/ankdesh/ssd/models/caffe/inceptionv3/deploy_inception-v3_batch30.prototxt', \
                  '/home/ankdesh/ssd/models/caffe/inceptionv3/inception-v3.caffemodel', caffe.TEST)
 
-net.blobs['data'].data[...] = npimg
+net.blobs['data'].data[...] = np100imgs[0:30,...]
 _ = net.forward()
 
 #print("Blobs:")
@@ -37,8 +37,8 @@ _ = net.forward()
 #    print("{:<5}:  {}".format(name, blob.data.shape))
 
 def getCellsFromModel(net, widthCell, heightCell):
-    countCellZeros = 0
-    countCellNonZeros = 0
+    countAllZeros = 0
+    countAllNonZeros = 0
    
     fileName = 'results' + str(heightCell) + 'x' + str(widthCell) + '.csv' 
     print ('Writing results to' + fileName)
@@ -62,6 +62,7 @@ def getCellsFromModel(net, widthCell, heightCell):
                     countBlobZeros = 0
                     countBlobNonZeros = 0
                     for n in range(paddedData.shape[0]):
+                        print ('Processing batch.. ' + str(n))
                         listChZeros = []
                         listChNonZeros = []
                         for c in range(paddedData.shape[1]):
@@ -77,17 +78,19 @@ def getCellsFromModel(net, widthCell, heightCell):
                                         countChNonZero += 1 
                             listChZeros.append(countChZero)
                             listChNonZeros.append(countChNonZero)
-                            countCellZeros += sum(listChZeros)
-                            countCellNonZeros += sum(listChNonZeros)
+                            countAllZeros += sum(listChZeros)
+                            countAllNonZeros += sum(listChNonZeros)
                             countBlobZeros += sum(listChZeros) 
                             countBlobNonZeros += sum(listChNonZeros) 
 
                         #print (str(n) + '>' + ','.join(map(str,listChZeros)))
                         #print (str(n) + '<' + ','.join(map(str,listChNonZeros)))
-                    f.write (','.join([name, str(countBlobZeros), str(countBlobNonZeros) + '\n']))
+                    avgBlobZeros = float(countBlobZeros) / float(n)
+                    avgBlobNonZeros = float(countBlobNonZeros) / float(n)
+                    f.write (','.join([name, str(avgBlobZeros), str(avgBlobNonZeros) + '\n']))
                 
 
-    return (countCellZeros, countCellNonZeros)
+    return (countAllZeros, countAllNonZeros)
 
 #print ('(CellZeros, CellNonZeros) = ' + ','.join(map(str,getCellsFromModel(net, 4, 4))))
-getCellsFromModel(net,2,2)
+getCellsFromModel(net,4,4)
