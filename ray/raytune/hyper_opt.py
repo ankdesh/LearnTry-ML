@@ -39,19 +39,6 @@ if __name__ == "__main__":
         "activation": hp.choice("activation", ["relu", "tanh"])
     }
 
-#    current_best_params = [
-#        {
-#            "width": 1,
-#            "height": 2,
-#            "activation": 0  # Activation will be relu
-#        },
-#        {
-#            "width": 4,
-#            "height": 2,
-#            "activation": 1  # Activation will be tanh
-#        }
-#    ]
-
     config = {
         "num_samples": 10 if args.smoke_test else 1000,
         "config": {
