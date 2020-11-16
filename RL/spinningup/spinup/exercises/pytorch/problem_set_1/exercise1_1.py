@@ -1,6 +1,7 @@
 import torch
 import numpy as np
-
+from torch.distributions.independent import Independent
+from torch.distributions.multivariate_normal import MultivariateNormal
 """
 
 Exercise 1.1: Diagonal Gaussian Likelihood
@@ -22,13 +23,21 @@ def gaussian_likelihood(x, mu, log_std):
 
     Returns:
         Tensor with shape [batch]
-    """
+    """ 
+    print (log_std.size())
+    mvn = MultivariateNormal(mu, torch.diag(torch.exp(log_std)))
+    diag_mvn = Independent(mvn,1)
+    ans = []
+    for xi in x:
+      log_prob = diag_mvn.log_prob(xi)
+      print (xi, log_prob)
+      ans.append(xi)
     #######################
     #                     #
     #   YOUR CODE HERE    #
     #                     #
     #######################
-    return torch.zeros(1)
+    return log_prob
 
 
 if __name__ == '__main__':
@@ -51,5 +60,7 @@ if __name__ == '__main__':
     your_result = your_gaussian_likelihood.detach().numpy()
     true_result = true_gaussian_likelihood.detach().numpy()
 
+    print ('My answer:', your_result)
+    print ('True Result:', true_result)
     correct = np.allclose(your_result, true_result)
     print_result(correct)
