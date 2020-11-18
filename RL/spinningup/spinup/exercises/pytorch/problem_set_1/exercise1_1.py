@@ -2,6 +2,7 @@ import torch
 import numpy as np
 from torch.distributions.independent import Independent
 from torch.distributions.multivariate_normal import MultivariateNormal
+from torch.distributions.normal import Normal
 """
 
 Exercise 1.1: Diagonal Gaussian Likelihood
@@ -24,30 +25,33 @@ def gaussian_likelihood(x, mu, log_std):
     Returns:
         Tensor with shape [batch]
     """ 
-    EPS = 1e-8
-    dims = x.size(-1)
-    last_term = - 0.5 * dims * np.log(2*np.pi)
-    
-    inner_exp = ((x-mu)/(torch.exp(log_std)+EPS))**2 + 2 * log_std 
-    sum_exp = -0.5 * ( inner_exp.sum(-1))
+
+    # Correct answer based on solution presented by spinningup
+#    EPS = 1e-8
+#    dims = x.size(-1)
+#    last_term = - 0.5 * dims * np.log(2*np.pi)
+#    
+#    inner_exp = ((x-mu)/(torch.exp(log_std)+EPS))**2 + 2 * log_std 
+#    sum_exp = -0.5 * ( inner_exp.sum(-1))
     
     
 
 #    print (log_std.size())
-#    mvn = MultivariateNormal(mu, torch.diag(torch.exp(log_std)))
-#    diag_mvn = Independent(mvn,1)
-#    ans = []
-#    for xi in x:
-#      log_prob = diag_mvn.log_prob(xi)
-#      print (xi, log_prob)
-#      ans.append(xi)
+    mvn = Normal(mu, torch.exp(log_std))
+    diag_mvn = Independent(mvn,1)
+    ans = diag_mvn.log_prob(x)
+    #print (ans)
+    #for xi in x:
+    #  log_prob = diag_mvn.log_prob(xi)
+    #  print (xi, log_prob)
+    #  ans.append(xi)
     #######################
     #                     #
     #   YOUR CODE HERE    #
     #                     #
     #######################
-    return sum_exp + last_term
-
+    # return sum_exp + last_term
+    return ans
 
 if __name__ == '__main__':
     """
