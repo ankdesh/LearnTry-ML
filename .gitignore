@@ -4,3 +4,6 @@ wrappers_dump
 *.swp
 cs294-Deep-Unsupervised-Pieter-Assign/demos/
 data/
+*.Identifier
+saved_model/
+*.tflite
