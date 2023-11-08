@@ -9,3 +9,4 @@ saved_model/
 *.tflite
 img/
 datasets/
+*.zip
