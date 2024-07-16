@@ -1,0 +1,300 @@
+"",Evaluation,
+"",Large Language Model,
+•,G eneral Performance,
+•,Sp ecific Domains,
+•,R e trieval Capability,Retrieval So
+"",ChunkingFine-tuneQuery Classification,
+"",,• C hunking Size
+•,D isturb,• Sm all2big
+•,R andom,• Sl iding Windows
+•,N o  r mal Retrieval,• C hunk Metadata
+"",• O riginal Query,
+Summarization,• BM 25,Embedding
+"",• C ontriever,
+•,Ex tractive • LL M-Embedder,• LL M-Embedder
+"",• R ecomp • Q uery Rewriting,• in tfloat/e5
+"",• BM 25 • Q uery Decomposition,• BA AI/bge
+"",• Co ntriever • H yDE,• Jin a-embeddings-v2
+•,A bstractive • H ybrid Search,• G te
+"",• Lo ngLLMlingua • H y  DE+Hybrid Search,• al l - m  pnet-base-v2
+"",• Se lectiveContext,
+"",• Re comp,
+"",Reranking,Vector Database
+"",Repacking • D LM-based,• M ilvus
+"",• m onoT5,• Fa iss
+•,Si des • m onoBERT,• W eaviate
+•,Fo rward • R ankLLaMA,• Q drant
+•,R e verse C hroma• TILDE,•
+"""Dave is attending his aunt's",
+"brother funeral today."" propelled prosperity and",
+"Paraphrase the given information innovation in arts, literature,",If I want to travel from Los Angeles to New York and I
+"effectively. < Rewriting > and science."" Give me a","want to choose the cheapest mode of transportation,"
+summary.,
+"",should I drive or take a plane?< Decision making >
+< Summarization >,
+"Tom has three sisters, and each",
+sister has a brother. How many,
+"",I had a quarrel with my parents because they oppose my
+"siblings are there in total? relationship with my boyfriend, but we genuinely love < Reasonning > ""ChatGPT is a product of OpenAI.""",each other. How should I persuade my parents to accept
+"",,namespace-Pt/msmarco,,
+Embedding Model,,,,
+"",MRR@1,MRR@10 MRR@100 R@1,R@10,R@100
+BAAI/LLM-Embedder [20],24.79,37.58 38.62 24.07,66.45,90.75
+BAAI/bge-base-en-v1.5 [12],23.34,35.80 36.94 22.63,64.12,90.13
+BAAI/bge-small-en-v1.5 [12],23.27,35.78 36.89 22.65,63.92,89.80
+BAAI/bge-large-en-v1.5 [12],24.63,37.48 38.59 23.91,65.57,90.60
+BAAI/bge-large-en [12],24.84,37.66 38.73 24.13,66.09,90.64
+BAAI/bge-small-en [12],23.28,35.79 36.91 22.62,63.96,89.67
+BAAI/bge-base-en [12],23.47,35.94 37.07 22.73,64.17,90.14
+Alibaba-NLP/gte-large-en-v1.5 [21],8.93,15.60 16.71 8.67,32.28,60.36
+thenlper/gte-base [21],7.42,13.23 14.30 7.21,28.27,56.20
+thenlper/gte-small [21],7.97,14.81 15.95 7.71,32.07,61.08
+jinaai/jina-embeddings-v2-small-en [42],8.07,15.02 16.12 7.87,32.55,60.36
+intfloat/e5-small-v2 [11],10.04,18.23 19.41 9.74,38.92,68.42
+intfloat/e5-large-v2 [11],9.58,17.94 19.03 9.35,39.00,66.11
+sentence-transformers/all-mpnet-base-v2,5.80,11.26 12.26 5.66,25.57,50.94
+and responses,match,queries.,We,use,the,,
+"",,,,,,,lyft_2021
+evaluation module of LlamaIndex [43] to cal-,,,,,,,
+"",,,,,,Chunk Size,
+culate the metrics,above.,For,"embedding,",,,,Average Average
+"we use the Relevancytext-embedding-ada-0022 model,",,,,,,,Faithfulness
+"",,,,,,2048,80.37 91.11
+which supports long input length.,,,We choose,,,,
+zephyr-7b-alpha,3 and gpt-3.5-turbo4,,,,as,1024,94.26 95.56
+"",,,,,,512,97.59 97.41
+generation model and evaluation model respec-,,,,,,256,97.22 97.78
+tively. The size of the chunk overlap is 20 tokens.,,,,,,128,95.74 97.22
+"MultipleIndex Type","Billion-Scale","HybridSearch"
+"✗✓✗✗✓","✗✗✗✓✓","✓✗✓✓✓"
+"",,TREC DL19,,,,TREC DL20,,
+Method,,,,,,,,
+"",mAP,nDCG@10 R@50,R@1k,Latency,mAP,nDCG@10 R@50,R@1k,Latency
+unsupervised,,,,,,,,
+BM25,30.13,50.58 38.32,75.01,0.07,28.56,47.96 46.18,78.63,0.29
+Contriever,23.99,44.54 37.54,74.59,3.06,23.98,42.13 43.81,75.39,0.98
+supervised,,,,,,,,
+LLM-Embedder,44.66,70.20 49.06,84.48,2.61,45.60,68.76 61.36,84.41,0.71
++ Query Rewriting,44.56,67.89 51.45,85.35,7.80,45.16,65.62 59.63,83.45,2.06
++ Query Decomposition,41.93,66.10 48.66,82.62,14.98,43.30,64.95 57.74,84.18,2.01
++ HyDE,50.87,75.44 54.93,88.76,7.21,50.94,73.94 63.80,88.03,2.14
++ Hybrid Search,47.14,72.50 51.13,89.08,3.20,47.72,69.80 64.32,88.04,0.77
++ HyDE + Hybrid Search,52.13,73.34 55.38,90.42,11.16,53.13,72.72 66.14,90.67,2.95
+"",,TREC DL19,,,,TREC DL20,,
+Configuration,,,,,,,,
+"",mAP,nDCG@10 R@50,R@1k,latency,mAP,nDCG@10 R@50,R@1k,Latency
+HyDE,,,,,,,,
+w/ 1 pseudo-doc,48.77,72.49 53.20,87.73,8.08,51.31,70.37 63.28,87.81,2.09
+w/ 1 pseudo-doc + query,50.87,75.44 54.93,88.76,7.21,50.94,73.94 63.80,88.03,2.14
+w/ 8 pseudo-doc + query,51.64,75.12 54.51,89.17,14.15,53.14,73.65 65.79,88.67,3.44
+"",,TREC DL19,,,,TREC DL20,,
+Hyperparameter,,,,,,,,
+"",mAP,nDCG@10 R@50,R@1k,latency,mAP,nDCG@10 R@50,R@1k,Latency
+Hybrid Search,,,,,,,,
+α = 0.1,46.00,70.87 49.24,88.89,2.98,46.54,69.05 63.36,87.32,0.90
+α = 0.3,47.14,72.50 51.13,89.08,3.20,47.72,69.80 64.32,88.04,0.77
+α = 0.5,47.36,72.24 52.71,88.09,3.02,47.19,68.12 64.90,87.86,0.87
+α = 0.7,47.21,71.89 52.40,88.01,3.15,45.82,67.30 64.23,87.92,1.02
+α = 0.9,46.35,70.67 52.64,88.22,2.74,44.02,65.55 63.22,87.76,1.20
+"",Table 8: Results of hybrid search with different alpha values.,
+"",MS MARCO Passage ranking,
+Method,,
+"",Base Model # Params MRR@1 MRR@10 MRR@1k Hit Rate@10,Latency
+w/o Reranking,,
+Random Ordering,- - 0.011 0.027 0.068 0.092,-
+BM25,- - 6.52 11.65 12.59 24.63,-
+DLM Reranking,,
+monoT5,T5-base 220M 21.62 31.78 32.40 54.07,4.5
+monoBERT,BERT-large 340M 21.65 31.69 32.35 53.38,15.8
+RankLLaMA,Llama-2-7b 7B 22.08 32.35 32.97 54.53,82.4
+TILDE Reranking,,
+TILDEv2,BERT-base 110M 18.57 27.83 28.60 49.07,0.02
+"",,NQ,,TQA,HotPotQA,,
+Method,,,,,,Avg.,Avg. Token
+"",F1,"#token",F1,"#token",F1 #token,,
+w/o Summarization,,,,,,,
+Origin Prompt,27.07,124,33.61,152,33.92 141,31.53,139
+Extractive Method,,,,,,,
+BM25,27.97,40,32.44,59,28.00 63,29.47,54
+Contriever,23.62,42,33.79,65,23.64 60,27.02,56
+Recomp (extractive),27.84,34,35.32,60,29.46 58,30.87,51
+Abstractive Method,,,,,,,
+SelectiveContext,25.05,65,34.25,70,34.43 66,31.24,67
+LongLLMlingua,21.32,51,32.81,56,30.79 57,28.29,55
+Recomp (abstractive),33.68,59,35.87,61,29.01 57,32.85,59
+"",Commonsense Fact Check ODQA,Multihop,Medical,RAG,,,Avg.
+Method,,,,,,,
+"",Acc Acc EM F1,EM F1,Acc,Score,,Score,F1 Latency
+"","classification module , Hybrid with HyDE, monoT5, sides, Recomp",,,,,,
+w/o classification,0.719 0.505 0.391 0.450,0.212 0.255,0.528,0.540,,0.465,0.353 16.58
++ classification,0.727 0.595 0.393 0.450,0.207 0.257,0.460,0.580,,0.478,0.353 11.71
+"","with classification, retrieval module",", monoT5, sides, Recomp",,,,,
++ HyDE,0.718 0.595 0.320 0.373,0.170 0.213,0.400,0.545,,0.443,0.293 11.58
++ Original,0.721 0.585 0.300 0.350,0.153 0.197,0.390,0.486,,0.428,0.273 1.44
++ Hybrid,0.718 0.595 0.347 0.397,0.190 0.240,0.750,0.498,,0.477,0.318 1.45
++ Hybrid with HyDE,0.727 0.595 0.393 0.450,0.207 0.257,0.460,0.580,,0.478,0.353 11.71
+"","with classification, Hybrid with HyDE, reranking module",,", sides, Recomp",,,,
+w/o reranking,0.720 0.591 0.365 0.429,0.211 0.260,0.512,0.530,,0.470,0.334 10.31
++ monoT5,0.727 0.595 0.393 0.450,0.207 0.257,0.460,0.580,,0.478,0.353 11.71
++ monoBERT,0.723 0.593 0.383 0.443,0.217 0.259,0.482,0.551,,0.475,0.351 11.65
++ RankLLaMA,0.723 0.597 0.382 0.443,0.197 0.240,0.454,0.558,,0.470,0.342 13.51
++ TILDEv2,0.725 0.588 0.394 0.456,0.209 0.255,0.486,0.536,,0.476,0.355 11.26
+"","with classification, Hybrid with HyDE, monoT5,",repacking module,", Recomp",,,,
++ sides,0.727 0.595 0.393 0.450,0.207 0.257,0.460,0.580,,0.478,0.353 11.71
++ forward,0.722 0.599 0.379 0.437,0.215 0.260,0.472,0.542,,0.474,0.349 11.68
++ reverse,0.728 0.592 0.387 0.445,0.219 0.263,0.532,0.560,,0.483,0.354 11.70
+"","with classification, Hybrid with HyDE, monoT5, reverse,",summarization module,,,,,
+w/o summarization,0.729 0.591 0.402 0.457,0.205 0.252,0.528,0.533,,0.480,0.355 10.97
++ Recomp,0.728 0.592 0.387 0.445,0.219 0.263,0.532,0.560,,0.483,0.354 11.70
++ LongLLMLingua,0.713 0.581 0.362 0.423,0.199 0.245,0.530,0.539,,0.466,0.334 16.17
+le 11: Results of the search for optimal RAG practices. Modules enclosed in a,,,,,,,boxed module
+under investigation to determine the best method. The underlined method represents the selected,,,,,,,
+•,"Reranking Module: The absence of a reranking module led to a noticeable drop in performance,"
+"","highlighting its necessity. MonoT5 achieved the highest average score, affirming its efficacy in"
+"",augmenting the relevance of retrieved documents. This indicates the critical role of reranking in
+"",enhancing the quality of generated responses.
+•,"Repacking Module: The Reverse configuration exhibited superior performance, achieving an"
+"",RAG score of 0.560. This indicates that positioning more relevant context closer to the query leads
+"",to optimal outcomes.
+•,"Summarization Module: Recomp demonstrated superior performance, although achieving compa-"
+[1],"Long Ouyang, Jeff Wu, Xu Jiang, Diogo Almeida, Carroll L. Wainwright, Pamela Mishkin,"
+"","Chong Zhang, Sandhini Agarwal, Katarina Slama, Alex Ray, John Schulman, Jacob Hilton,"
+"","Fraser Kelton, Luke Miller, Maddie Simens, Amanda Askell, Peter Welinder, Paul Christiano,"
+"","Jan Leike, and Ryan Lowe. Training language models to follow instructions with human"
+"",feedback. In Proceedings of the Conference on Neural Information Processing Systems (NeurIPS
+"","2022), 2022."
+[2],"Rafael Rafailov, Archit Sharma, Eric Mitchell, Stefano Ermon, Christopher D Manning, and"
+"",Chelsea Finn. Direct preference optimization: Your language model is secretly a reward model.
+"","arXiv preprint arXiv:2305.18290, 2023."
+[3],"Yao Zhao, Rishabh Joshi, Tianqi Liu, Misha Khalman, Mohammad Saleh, and Peter J Liu. SLIC-"
+"","HF: Sequence likelihood calibration with human feedback. arXiv preprint arXiv:2305.10425,"
+"",2023.
+[4],"Zheng Yuan, Hongyi Yuan, Chuanqi Tan, Wei Wang, Songfang Huang, and Fei Huang. RRHF:"
+"",Rank responses to align language models with human feedback without tears. arXiv preprint
+"","arXiv:2304.05302, 2023."
+[5],"Wenhao Liu, Xiaohua Wang, Muling Wu, Tianlong Li, Changze Lv, Zixuan Ling, Jianhao Zhu,"
+"","Cenyuan Zhang, Xiaoqing Zheng, and Xuanjing Huang. Aligning large language models with"
+"","human preferences through representation engineering. arXiv preprint arXiv:2312.15997, 2023."
+[6],"Yunfan Gao, Yun Xiong, Xinyu Gao, Kangxiang Jia, Jinliu Pan, Yuxi Bi, Yi Dai, Jiawei Sun,"
+"",and Haofen Wang. Retrieval-augmented generation for large language models: A survey. arXiv
+"","preprint arXiv:2312.10997, 2023."
+[7],"Huayang Li, Yixuan Su, Deng Cai, Yan Wang, and Lemao Liu. A survey on retrieval-augmented"
+"","text generation. arXiv preprint arXiv:2202.01110, 2022."
+[8],"Deng Cai, Yan Wang, Lemao Liu, and Shuming Shi. Recent advances in retrieval-augmented"
+"",text generation. In Proceedings of the 45th international ACM SIGIR conference on research
+"","and development in information retrieval, pages 3417–3419, 2022."
+[9],"Xinbei Ma, Yeyun Gong, Pengcheng He, Hai Zhao, and Nan Duan. Query rewriting for"
+"","retrieval-augmented large language models. arXiv preprint arXiv:2305.14283, 2023."
+[10],"Luyu Gao, Xueguang Ma, Jimmy Lin, and Jamie Callan. Precise zero-shot dense retrieval"
+"","without relevance labels. arXiv preprint arXiv:2212.10496, 2022."
+[11],"Liang Wang, Nan Yang, Xiaolong Huang, Binxing Jiao, Linjun Yang, Daxin Jiang, Rangan"
+[13],"OpenAI. GPT-4 technical report. CoRR, abs/2303.08774, 2023. doi: 10.48550/ARXIV.2303."
+"",08774. URL https://doi.org/10.48550/arXiv.2303.08774.
+[14],"Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timo-"
+"","thée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. LLaMA: Open"
+"","and efficient foundation language models. arXiv preprint arXiv:2302.13971, 2023."
+[15],"Yue Zhang, Yafu Li, Leyang Cui, Deng Cai, Lemao Liu, Tingchen Fu, Xinting Huang, Enbo"
+"","Zhao, Yu Zhang, Yulong Chen, et al. Siren’s song in the ai ocean: a survey on hallucination in"
+"","large language models. arXiv preprint arXiv:2309.01219, 2023."
+[16],"Xiaohua Wang, Yuliang Yan, Longtao Huang, Xiaoqing Zheng, and Xuan-Jing Huang. Halluci-"
+"",nation detection for generative large language models by bayesian sequential estimation. In
+"","Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing,"
+"","pages 15361–15371, 2023."
+[17],"Liang Wang, Nan Yang, and Furu Wei. Query2doc: Query expansion with large language"
+"","models. arXiv preprint arXiv:2303.07678, 2023."
+[18],"Gangwoo Kim, Sungdong Kim, Byeongguk Jeon, Joonsuk Park, and Jaewoo Kang. Tree of"
+"",clarifications: Answering ambiguous questions with retrieval-augmented large language models.
+"","arXiv preprint arXiv:2310.14696, 2023."
+[19],"Jerry Liu. LlamaIndex, 11 2022. URL https://github.com/jerryjliu/llama_index."
+[20],"Peitian Zhang, Shitao Xiao, Zheng Liu, Zhicheng Dou, and Jian-Yun Nie. Retrieve anything to"
+"","augment large language models. arXiv preprint arXiv:2310.07554, 2023."
+[21],"Zehan Li, Xin Zhang, Yanzhao Zhang, Dingkun Long, Pengjun Xie, and Meishan Zhang."
+"",Towards general text embeddings with multi-stage contrastive learning. arXiv preprint
+"","arXiv:2308.03281, 2023."
+[22],"Huiqiang Jiang, Qianhui Wu, Chin-Yew Lin, Yuqing Yang, and Lili Qiu. Llmlingua:"
+"",Compressing prompts for accelerated inference of large language models. arXiv preprint
+"","arXiv:2310.05736, 2023."
+[23],"Fangyuan Xu, Weijia Shi, and Eunsol Choi. Recomp: Improving retrieval-augmented lms with"
+"","compression and selective augmentation. arXiv preprint arXiv:2310.04408, 2023."
+[24],"Zhiruo Wang, Jun Araki, Zhengbao Jiang, Md Rizwan Parvez, and Graham Neubig. Learning"
+"","to filter context for retrieval-augmented generation. arXiv preprint arXiv:2311.08377, 2023."
+[25],"Rodrigo Nogueira, Wei Yang, Kyunghyun Cho, and Jimmy Lin. Multi-stage document ranking"
+"","with bert. arXiv preprint arXiv:1910.14424, 2019."
+[26],"Rodrigo Nogueira, Zhiying Jiang, and Jimmy Lin. Document ranking with a pretrained"
+"","sequence-to-sequence model. arXiv preprint arXiv:2003.06713, 2020."
+[27],"Xueguang Ma, Liang Wang, Nan Yang, Furu Wei, and Jimmy Lin. Fine-tuning llama for"
+"","multi-stage text retrieval. arXiv preprint arXiv:2310.08319, 2023."
+[28],Shengyao Zhuang and Guido Zuccon. Tilde: Term independent likelihood model for passage
+"",re-ranking. In Proceedings of the 44th International ACM SIGIR Conference on Research and
+"","Development in Information Retrieval, pages 1483–1492, 2021."
+[29],Shengyao Zhuang and Guido Zuccon. Fast passage re-ranking with contextualized exact term
+"","matching and efficient passage expansion. arXiv preprint arXiv:2108.08513, 2021."
+[30],"Hongyin Luo, Yung-Sung Chuang, Yuan Gong, Tianhua Zhang, Yoon Kim, Xixin Wu, Danny"
+[33],"Gautier Izacard, Patrick Lewis, Maria Lomeli, Lucas Hosseini, Fabio Petroni, Timo Schick,"
+"","Jane A. Yu, Armand Joulin, Sebastian Riedel, and Edouard Grave. Few-shot learning with"
+"","retrieval augmented language models. ArXiv, abs/2208.03299, 2022."
+[34],"Lingxi Zhang, Yue Yu, Kuan Wang, and Chao Zhang. Arl2: Aligning retrievers for black-box"
+"","large language models via self-guided adaptive relevance labeling. ArXiv, abs/2402.13542,"
+"",2024.
+[35],"Weijia Shi, Sewon Min, Michihiro Yasunaga, Minjoon Seo, Rich James, Mike Lewis, Luke"
+"","Zettlemoyer, and Wen-tau Yih. Replug: Retrieval-augmented black-box language models. arXiv"
+"","preprint arXiv:2301.12652, 2023."
+[36],"Kelvin Guu, Kenton Lee, Zora Tung, Panupong Pasupat, and Ming-Wei Chang. Realm:"
+"","Retrieval-augmented language model pre-training. ArXiv, abs/2002.08909, 2020."
+[37],"Xi Victoria Lin, Xilun Chen, Mingda Chen, Weijia Shi, Maria Lomeli, Rich James, Pedro"
+"","Rodriguez, Jacob Kahn, Gergely Szilvasy, Mike Lewis, Luke Zettlemoyer, and Scott Yih."
+"","Ra-dit: Retrieval-augmented dual instruction tuning. ArXiv, abs/2310.01352, 2023."
+[38],Hamed Zamani and Michael Bendersky. Stochastic rag: End-to-end retrieval-augmented gen-
+"",eration through expected utility maximization. 2024. URL https://api.semanticscholar
+"",org/CorpusID:269605438.
+[39],Yizheng Huang and Jimmy Huang. A survey on retrieval-augmented text generation for large
+"","language models. arXiv preprint arXiv:2404.10981, 2024."
+[40],"Ruochen Zhao, Hailin Chen, Weishi Wang, Fangkai Jiao, Xuan Long Do, Chengwei Qin,"
+"","Bosheng Ding, Xiaobao Guo, Minzhi Li, Xingxuan Li, et al. Retrieving multimodal information"
+"","for augmented generation: A survey. arXiv preprint arXiv:2303.10868, 2023."
+[41],"Penghao Zhao, Hailin Zhang, Qinhan Yu, Zhengren Wang, Yunteng Geng, Fangcheng Fu, Ling"
+"","Yang, Wentao Zhang, and Bin Cui. Retrieval-augmented generation for ai-generated content: A"
+"","survey. arXiv preprint arXiv:2402.19473, 2024."
+[42],"Michael Günther, Jackmin Ong, Isabelle Mohr, Alaeddine Abdessalem, Tanguy Abel, Moham-"
+"","mad Kalim Akram, Susana Guzman, Georgios Mastrapas, Saba Sturua, Bo Wang, et al. Jina"
+"",embeddings 2: 8192-token general-purpose text embeddings for long documents. arXiv preprint
+"","arXiv:2310.19923, 2023."
+[43],LlamaIndex. Llamaindex website. https://www.llamaindex.com. Accessed: 2024-06-08.
+[44],"Kunal Sawarkar, Abhilasha Mangal, and Shivam Raj Solanki. Blended rag: Improving rag"
+"",(retriever-augmented generation) accuracy with semantic search and hybrid query-based retriev-
+"","ers. arXiv preprint arXiv:2404.07220, 2024."
+[45],"Gautier Izacard, Mathilde Caron, Lucas Hosseini, Sebastian Riedel, Piotr Bojanowski, Armand"
+"","Joulin, and Edouard Grave. Unsupervised dense information retrieval with contrastive learning."
+"","arXiv preprint arXiv:2112.09118, 2021."
+[46],"Nandan Thakur, Nils Reimers, Andreas Rücklé, Abhishek Srivastava, and Iryna Gurevych. Beir:"
+[50],"Hugo Touvron, Louis Martin, Kevin R. Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei,"
+"","Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, Daniel M. Bikel, Lukas"
+"","Blecher, Cristian Cantón Ferrer, Moya Chen, Guillem Cucurull, David Esiobu, Jude Fernandes,"
+"","Jeremy Fu, Wenyin Fu, Brian Fuller, Cynthia Gao, Vedanuj Goswami, Naman Goyal, Anthony S."
+"","Hartshorn, Saghar Hosseini, Rui Hou, Hakan Inan, Marcin Kardas, Viktor Kerkez, Madian"
+"","Khabsa, Isabel M. Kloumann, A. V. Korenev, Punit Singh Koura, Marie-Anne Lachaux, Thibaut"
+"","Lavril, Jenya Lee, Diana Liskovich, Yinghai Lu, Yuning Mao, Xavier Martinet, Todor Mihaylov,"
+"","Pushkar Mishra, Igor Molybog, Yixin Nie, Andrew Poulton, Jeremy Reizenstein, Rashi Rungta,"
+"","Kalyan Saladi, Alan Schelten, Ruan Silva, Eric Michael Smith, R. Subramanian, Xia Tan, Binh"
+"","Tang, Ross Taylor, Adina Williams, Jian Xiang Kuan, Puxin Xu, Zhengxu Yan, Iliyan Zarov,"
+Context,Model,NQ,TriviaQA,HotpotQA,ASQA,Avg.
+"",Mb,29.78,60.44,23.73,37.89,37.96
+"",Mg,26.23,58.26,26.67,32.30,35.87
+D∅,Mr,31.10,61.37,28.40,39.96,40.21
+"",Mgr,25.92,57.62,26.43,32.99,35.70
+"",Mgg,26.69,58.07,27.04,33.75,36.39
+"",Mb,44.78,79.90,56.72,71.64,63.26
+"",Mg,85.72,88.16,79.82,85.51,84.80
+Dg,Mr,60.98,80.20,65.73,67.49,68.60
+"",Mgr,87.60,87.94,81.07,87.58,86.05
+"",Mgg,86.72,88.35,79.59,83.44,84.53
+"",Mb,16.49,50.03,21.57,28.79,29.22
+"",Mg,22.15,46.98,24.36,29.40,30.72
+Dr,Mr,36.92,58.42,29.64,39.54,41.13
+"",Mgr,23.63,45.01,24.17,27.95,30.19
+"",Mgg,21.08,43.83,23.23,27.33,28.87
+"",Mb,34.65,81.27,52.75,65.42,58.52
+"",Mg,85.00,87.33,78.18,83.02,83.38
+Dgr,Mr,60.28,79.32,63.82,67.29,67.68
+"",Mgr,87.63,87.14,79.95,87.78,85.63
+"",Mgg,86.31,86.90,78.10,83.85,83.79
