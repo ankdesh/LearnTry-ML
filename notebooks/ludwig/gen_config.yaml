@@ -1,0 +1,18 @@
+input_features:
+- name: 'Unnamed: 0'
+  type: numerical
+- name: movie_title
+  type: text
+- name: content_rating
+  type: category
+- name: genres
+  type: category
+- name: runtime
+  type: numerical
+- name: top_critic
+  type: binary
+- name: review_content
+  type: text
+output_features:
+- name: recommended
+  type: category
