@@ -3,8 +3,11 @@ import torch
 import torch.nn as nn
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 import minigrid
+from gymnasium.wrappers import RecordVideo
 from minigrid.wrappers import ImgObsWrapper
 from stable_baselines3 import PPO
+import os
+import time
 
 
 class MinigridFeaturesExtractor(BaseFeaturesExtractor):
@@ -35,15 +38,27 @@ policy_kwargs = dict(
     features_extractor_kwargs=dict(features_dim=128),
 )
 
-env = gym.make("MiniGrid-Empty-16x16-v0", render_mode="rgb_array")
+env = gym.make("MiniGrid-Fetch-8x8-N3-v0", render_mode="rgb_array")
 env = ImgObsWrapper(env)
 
-model = PPO("CnnPolicy", env, policy_kwargs=policy_kwargs, verbose=1)
-model.learn(100000)
+model = None
+if not os.path.exists("ppo_minigrid.zip"):
+    model = PPO("CnnPolicy", env, policy_kwargs=policy_kwargs, verbose=1)
+    model.learn(100000)
+    model.save("ppo_minigrid")
+else: 
+    model = PPO("CnnPolicy", env=env, policy_kwargs=policy_kwargs, verbose=1).load("ppo_minigrid",env=env)
 
+print (model)
 vec_env = model.get_env()
 obs = vec_env.reset()
+
+# Wrap the environment with RecordVideo
+#video_folder = './videos/'
+#vec_env = RecordVideo(vec_env, video_folder=video_folder, episode_trigger=lambda episode_id: True)
+
 for i in range(1000):
     action, _states = model.predict(obs, deterministic=True)
     obs, rewards, dones, info = vec_env.step(action)
+    #time.sleep(0.1)
     vec_env.render("human")
