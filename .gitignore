@@ -10,3 +10,4 @@ saved_model/
 img/
 datasets/
 *.zip
+.env
