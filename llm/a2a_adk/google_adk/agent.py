@@ -13,5 +13,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-root_agent=CalculatorAgent() # Instantiate with CalculatorAgent
-    
+root_agent=CalculatorAgent()._build_agent() # Instantiate with CalculatorAgent
+
+
