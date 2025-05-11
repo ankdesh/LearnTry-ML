@@ -37,7 +37,7 @@ async def call_agent_async(query):
         # Use run_async
         async for event in runner.run_async(user_id=USER_ID, session_id=SESSION_ID, new_message=content):
             print(f"Event ID: {event.id}, Author: {event.author}")
-
+            print ("[Ankur]:: ", event)
             # --- Check for specific parts FIRST ---
             has_specific_part = False
             if event.content and event.content.parts:
@@ -72,7 +72,7 @@ async def call_agent_async(query):
 
 # Main async function to run the examples
 async def main():
-    await call_agent_async("Calculate the value of (5 + 7) * 3")
+    #await call_agent_async("Calculate the value of (5 + 7) * 3")
     await call_agent_async("What is 10 factorial?")
 
 # Execute the main async function
