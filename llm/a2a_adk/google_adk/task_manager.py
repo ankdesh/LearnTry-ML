@@ -138,6 +138,9 @@ class AgentWithTaskManager(ABC):
         async for event in self._runner.run_async(
             user_id=self._user_id, session_id=session.id, new_message=content
         ):
+            for i, p in enumerate(event.content.parts):
+                print (f"ASD: Part {i}: ", p)
+
             # Check if the current event represents the final response from the agent.
             if event.is_final_response():
                 # Initialize an empty string to hold the agent's response.
@@ -149,14 +152,30 @@ class AgentWithTaskManager(ABC):
                     and event.content.parts
                     and event.content.parts[0].text
                 ):
+                    print ("ASD: Agent Condition: part has text")
                     response = "\n".join([p.text for p in event.content.parts if p.text])
                 # Check if the event contains function responses, retrieve and dump them as model.
                 elif (
                     event.content
                     and event.content.parts
                     and any([True for p in event.content.parts if p.function_response])):
+                    print ("ASD: Agent Condition: part has function response")
                     response = next((p.function_response.model_dump() for p in event.content.parts))
 
+                elif (
+                    event.content
+                    and event.content.parts
+                    and any([True for p in event.content.parts if p.code_execution_result])):
+                    #response = next((str(p.executable_code) for p in event.content.parts))
+                    response = str([p.code_execution_result.output for p in event.content.parts if p.code_execution_result])
+                    print ("ASD: Agent Condition: part has code execution response", str(response))
+
+                else:
+                    # Ankur: Default for all other cases
+                    print ("ASD: Agent Condition: Nothing else works")
+                    response = "\n".join([p.text for p in event.content.parts if p.text])
+
+                print ("Agent stream: Is Final]:: ", event.content.parts)
                 # Yield a dictionary indicating task completion along with the response.
                 yield {
                     "is_task_complete": True,
@@ -164,6 +183,7 @@ class AgentWithTaskManager(ABC):
                 }
             # If the event is not the final response, yield a processing update.
             else:
+                print ("Agent stream: Is NOT Final]:: ", event)
                 # Yield a dictionary indicating the task is still in progress and provides a processing message.
                 yield {
                     "is_task_complete": False,
@@ -219,6 +239,7 @@ class AgentTaskManager(InMemoryTaskManager):
 
             # --- Handle Intermediate Updates ---
             if not is_task_complete:
+              print ("A2A stream: Is Final]:: ", item)
               # Agent is still working, set state accordingly.
               task_state = TaskState.WORKING
               # Format the update message as a text part.
@@ -226,6 +247,7 @@ class AgentTaskManager(InMemoryTaskManager):
 
             # --- Handle Final Response ---
             else:
+              print ("A2A stream: Is NOT Final]:: ", item)
               # Check if the final content is structured data (dict).
               if isinstance(item["content"], dict):
                 # Specific check for form-like responses (e.g., from return_form tool).

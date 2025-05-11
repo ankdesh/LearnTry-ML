@@ -1,7 +1,7 @@
 from common.server import A2AServer
 from common.types import AgentCard, AgentCapabilities, AgentSkill, MissingAPIKeyError
 from task_manager import AgentTaskManager
-from agent_template import CalculatorAgent # Import CalculatorAgent
+from code_execute import CodeExecAgent 
 import click
 import os
 import logging
@@ -13,6 +13,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-root_agent=CalculatorAgent()._build_agent() # Instantiate with CalculatorAgent
+root_agent=CodeExecAgent()._build_agent() # Instantiate with CalculatorAgent
 
 

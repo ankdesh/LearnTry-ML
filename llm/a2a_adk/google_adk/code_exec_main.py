@@ -26,7 +26,7 @@ def main(host, port):
         #         )
         
         # Define capabilities and skills for the Code Execution Agent
-        capabilities = AgentCapabilities(streaming=True)
+        capabilities = AgentCapabilities(streaming=True, stateTransitionHistory=True)
         skill = AgentSkill(
             id="execute_python_code",
             name="Generate and Execute Python Code",
