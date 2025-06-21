@@ -1,0 +1,11 @@
+[project]
+name = "doc_accessors"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "a2a-sdk>=0.2.8",
+    "fastapi[all]>=0.115.13",
+    "pandas>=2.3.0",
+]
