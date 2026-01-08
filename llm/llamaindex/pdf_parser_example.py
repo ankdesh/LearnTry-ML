@@ -45,14 +45,35 @@ def main():
     # 3. Convert to LlamaIndex Nodes
     print("Creating LlamaIndex Nodes...")
     nodes = []
+    if chunks:
+        print(f"First chunk metadata: {chunks[0].meta}")
+        try:
+            print(f"First chunk metadata vars: {vars(chunks[0].meta)}")
+        except:
+            pass
+            
     for i, chunk in enumerate(chunks):
         # Docling chunks have text and metadata (including headers)
+        # Inspect structure from logs
+        page_num = None
+        # Try to find page number safely
+        # It might be in chunk.meta.origin.page_references[0].page_no?
+        
+        # Temporary fix: simple safely get or default
+        # metadata={
+        #     "page": chunk.meta.page.page_no if chunk.meta.page else None,
+        #     "headings": [h.text for h in chunk.meta.headings] if chunk.meta.headings else []
+        # }
+        
+        # Let's clean up the access based on assumption it might be nested
+        # For now, let's just dump meta as dict if possible or use safe access
+        node_meta = {}
+        if hasattr(chunk.meta, "headings") and chunk.meta.headings:
+             node_meta["headings"] = [h for h in chunk.meta.headings] # might be strings or objects
+
         node = TextNode(
             text=chunk.text,
-            metadata={
-                "page": chunk.meta.page.page_no if chunk.meta.page else None,
-                "headings": [h.text for h in chunk.meta.headings] if chunk.meta.headings else []
-            }
+            metadata=node_meta
         )
         nodes.append(node)
 
